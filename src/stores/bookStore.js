@@ -51,6 +51,7 @@ Dispatcher.register( (action) => {
         case 'read_books_successful':
             BookStore.resetReadState();
             _bookStore.book.bookList = action.data;
+            console.log(_bookStore.book.bookList);
             _bookStore.book.readState.success = true;
             BookStore.emitChange();
             break;

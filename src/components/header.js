@@ -3,8 +3,7 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-export class Header extends React.Component{
-    render() {
+export const Header = () => {
         return(
             <nav className="navbar navbar-inverse">
                 <div className="container-fluid">
@@ -16,9 +15,9 @@ export class Header extends React.Component{
                         </li>
                         <li className="list-inline-item"><Link to="/" replace>Home</Link></li>
                         <li className="list-inline-item"><Link to="/books" replace>Books</Link></li>
+                        <li className="list-inline-item"><Link to="/authors" replace>Authors</Link></li>
                     </ul>
                 </div>
             </nav>
         );
     }
-}
