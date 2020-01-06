@@ -6,6 +6,24 @@ import BookActions from '../actions/bookActions';
 
 export class BookList extends React.Component{
 
+    constructor(props)
+    {
+        super(props);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = {
+            addBookForm: false,
+            addInput:{
+                title:"",
+                author:"",
+            }
+        };
+    }
+
+    handleChange()
+    {
+        this.setState(state => ({ addBookForm: !state.addBookForm}));
+    }
+
     createBookRow(book){
         return (
             <tr key={book.book_id}>
@@ -21,7 +39,24 @@ export class BookList extends React.Component{
     }
 
     render() {
-        
+        //handle AddButton
+        let addContent ='';
+        if(this.state.addBookForm)
+        {
+            addContent = (
+                <form method="post">
+                    <label>
+                        Title: <input type="text" name="title" />
+                    </label>
+                    <br/>
+                    <label>
+                        Author: <input type="text" name="author" />
+                    </label>
+                    <input type="submit" value = "submit" />
+                </form>
+            );
+        }
+        //handle bookList    
         let content = '';
         
         if(this.props.book.readState.pending){
@@ -63,6 +98,8 @@ export class BookList extends React.Component{
         return(
             <div>
                 <h1>Books</h1>
+                <button onClick={this.handleChange}>Add Button</button>
+                {addContent}
                 {content}
             </div>
         );

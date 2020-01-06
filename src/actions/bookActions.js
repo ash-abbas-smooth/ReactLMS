@@ -19,6 +19,12 @@ const BooksActions = {
                 actionType: 'read_books_failure'
             });
         });
+    },
+
+    addBooks: function(){
+        Dispatcher.dispatch({
+            actionType:'add_books_started'
+        });
     }
 }
 
