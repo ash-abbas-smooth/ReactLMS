@@ -1,6 +1,5 @@
 import Dispatcher from '../dispatcher/appDispatcher';
-import axios from 'axios'
-
+import axios from 'axios';
 const BooksActions = {
     readBooks: function(){
         Dispatcher.dispatch({
