@@ -10,12 +10,12 @@ export class BookForm  extends React.Component
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleTitleChange = this.handleTitleChange.bind(this);
         this.handleAuthorChange = this.handleAuthorChange.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
         this.state = {
             updatedForm: false,
             bookId: this.props.book.bookId,
             title:this.props.book.title,
             author:this.props.book.author,
-            submit: false
         }
     }
     handleUpdateForm()
@@ -34,16 +34,20 @@ export class BookForm  extends React.Component
     }
     handleSubmit(event)
     {
-        //console.log("Reached handle submit");
         event.preventDefault();
-        this.setState({submit: true});
-        //console.log("Reached handle submit");
         const book = {"title":this.state.title, "author":this.state.author, "bookId":this.props.book.bookId};
         //console.log(book);
         BookActions.updateBook(book);
         this.setState({updatedForm: false});
     }
 
+    handleDelete(event)
+    {
+        event.preventDefault();
+        const book = {"bookId": this.props.book.bookId};
+        BookActions.deleteBook(book);
+        this.setState({updatedForm: false});
+    }
     render()
     {
         let content = '';
@@ -52,7 +56,10 @@ export class BookForm  extends React.Component
                 <td> {this.props.book.bookId} </td>
                 <td> {this.props.book.title} </td>
                 <td> {this.props.book.author} </td>
-                <td><button onClick={this.handleUpdateForm}>+</button></td>
+                <td>
+                    <button onClick={this.handleUpdateForm}>Update</button>
+                    <button onClick={this.handleDelete}>Delete</button>
+                </td>
             </tr>
         );
         if(this.state.updatedForm)
