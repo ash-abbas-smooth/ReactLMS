@@ -1,5 +1,5 @@
 import React from 'react';
-import {BookActions} from '../actions/bookActions';
+import BookActions from '../actions/bookActions';
 
 export class BookForm  extends React.Component
 {
@@ -7,25 +7,43 @@ export class BookForm  extends React.Component
     {
         super(props);
         this.handleUpdateForm = this.handleUpdateForm.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleAuthorChange = this.handleAuthorChange.bind(this);
         this.state = {
             updatedForm: false,
-            title:'',
-            author:'',
-            submit: false,
+            bookId: this.props.book.bookId,
+            title:this.props.book.title,
+            author:this.props.book.author,
+            submit: false
         }
     }
     handleUpdateForm()
     {
-        console.log(this.state.updatedForm);
+        //console.log(this.state.updatedForm);
         this.setState(state => ({ updatedForm: !state.updatedForm}));
+    }
+    handleTitleChange(event)
+    {
+        this.setState({title: event.target.value});
+    }
+
+    handleAuthorChange(event)
+    {
+        this.setState({author: event.target.value});
     }
     handleSubmit(event)
     {
+        //console.log("Reached handle submit");
         event.preventDefault();
         this.setState({submit: true});
-        const book = {"title":this.state.title, "author":this.state.author};
-        BookActions.addBooks(book);
+        //console.log("Reached handle submit");
+        const book = {"title":this.state.title, "author":this.state.author, "bookId":this.props.book.bookId};
+        //console.log(book);
+        BookActions.updateBook(book);
+        this.setState({updatedForm: false});
     }
+
     render()
     {
         let content = '';
@@ -44,10 +62,10 @@ export class BookForm  extends React.Component
                 <td> {this.props.book.bookId} </td>
                 <td> 
                     <form id="updateBook" onSubmit={this.handleSubmit}>
-                        <input type="text" value={this.props.book.title} />
+                        <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
                     </form> 
                 </td>
-                <td> <input type="text" value={this.props.book.author} form="updateBook" /> </td>
+                <td> <input type="text" value={this.state.author} onChange={this.handleAuthorChange} form="updateBook" /> </td>
                 <td>
                     <input type="submit" form="updateBook" />
                     <button onClick={this.handleUpdateForm}>Cancel</button>

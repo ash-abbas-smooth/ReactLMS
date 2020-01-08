@@ -47,6 +47,36 @@ const BooksActions = {
                 actionType: 'add_books_failure'
             })
         });
+    },
+    updateBook: function(book)
+    {
+        Dispatcher.dispatch({
+            actionType: 'add_books_started'
+        });
+        axios.put('http://localhost:3000/book', { "title":book.title, "author":book.author, "bookId":book.bookId})
+        .then( () =>{
+            axios.get(`http://localhost:3000/book`)
+            .then(res => {
+                Dispatcher.dispatch({
+                    actionType: 'read_books_successful',
+                    data:  res.data
+                });
+            })
+            .catch( (error) => {
+                console.log(error);
+                Dispatcher.dispatch({
+                    actionType: 'read_books_failure'
+                });
+            });
+            }
+        )
+        .catch( (error) =>
+        {
+            console.log(error);
+            Dispatcher.dispatch({
+                actionType: 'add_books_failure'
+            })
+        });
     }
 }
 
