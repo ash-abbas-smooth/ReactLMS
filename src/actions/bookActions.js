@@ -5,7 +5,7 @@ const BooksActions = {
         Dispatcher.dispatch({
             actionType: 'read_books_started'
         });
-        axios.get(`http://www.mocky.io/v2/5daca80c30000092002987ad`)
+        axios.get(`http://localhost:3000/book`)
         .then(res => {
             Dispatcher.dispatch({
                 actionType: 'read_books_successful',
@@ -19,10 +19,20 @@ const BooksActions = {
             });
         });
     },
-
-    addBooks: function(){
-        Dispatcher.dispatch({
-            actionType:'add_books_started'
+    addBooks: function(book){
+        axios.post('http://localhost:3000/book', { "title":book.title, "author":book.author})
+        .then(res => {
+            Dispatcher.dispatch({
+                actionType: 'add_books_successful',
+                data: res.data
+            });
+        })
+        .catch( (error) =>
+        {
+            console.log(error);
+            Dispatcher.dispatch({
+                actionType: 'add_books_failure'
+            })
         });
     }
 }

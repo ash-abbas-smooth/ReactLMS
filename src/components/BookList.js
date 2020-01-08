@@ -9,25 +9,45 @@ export class BookList extends React.Component{
     constructor(props)
     {
         super(props);
-        this.handleChange = this.handleChange.bind(this);
+        this.handleAddFormChange = this.handleAddFormChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleTitleChange = this.handleTitleChange.bind(this);
+        this.handleAuthorChange = this.handleAuthorChange.bind(this);
         this.state = {
             addBookForm: false,
-            addInput:{
-                title:"",
-                author:"",
-            }
+            title:"",
+            author:"",
+            submit: false
         };
     }
 
-    handleChange()
+    handleAddFormChange()
     {
         this.setState(state => ({ addBookForm: !state.addBookForm}));
     }
 
+    handleTitleChange(event)
+    {
+        this.setState({title: event.target.value});
+    }
+
+    handleAuthorChange(event)
+    {
+        this.setState({author: event.target.value});
+    }
+    handleSubmit(event)
+    {
+        this.setState({submit: true});
+        const book = {"title":this.state.title, "author":this.state.author};
+        BookActions.addBooks(book);
+        event.preventDefault();
+        window.location.reload(false);
+    }
+
     createBookRow(book){
         return (
-            <tr key={book.book_id}>
-                <td> {book.book_id} </td>
+            <tr key={book.bookId}>
+                <td> {book.bookId} </td>
                 <td> {book.title} </td>
                 <td> {book.author} </td>
             </tr>
@@ -44,13 +64,13 @@ export class BookList extends React.Component{
         if(this.state.addBookForm)
         {
             addContent = (
-                <form method="post">
+                <form onSubmit={this.handleSubmit}>
                     <label>
-                        Title: <input type="text" name="title" />
+                        Title: <input type="text" value={this.state.title} onChange={this.handleTitleChange}/>
                     </label>
                     <br/>
                     <label>
-                        Author: <input type="text" name="author" />
+                        Author: <input type="text" value={this.state.author} onChange={this.handleAuthorChange}/>
                     </label>
                     <input type="submit" value = "submit" />
                 </form>
@@ -98,7 +118,7 @@ export class BookList extends React.Component{
         return(
             <div>
                 <h1>Books</h1>
-                <button onClick={this.handleChange}>Add Button</button>
+                <button onClick={this.handleAddFormChange}>Add Button</button>
                 {addContent}
                 {content}
             </div>
