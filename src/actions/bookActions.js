@@ -20,13 +20,26 @@ const BooksActions = {
         });
     },
     addBooks: function(book){
+        Dispatcher.dispatch({
+            actionType: 'add_books_started'
+        });
         axios.post('http://localhost:3000/book', { "title":book.title, "author":book.author})
-        .then(res => {
-            Dispatcher.dispatch({
-                actionType: 'add_books_successful',
-                data: res.data
+        .then( () =>{
+            axios.get(`http://localhost:3000/book`)
+            .then(res => {
+                Dispatcher.dispatch({
+                    actionType: 'read_books_successful',
+                    data:  res.data
+                });
+            })
+            .catch( (error) => {
+                console.log(error);
+                Dispatcher.dispatch({
+                    actionType: 'read_books_failure'
+                });
             });
-        })
+            }
+        )
         .catch( (error) =>
         {
             console.log(error);

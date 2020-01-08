@@ -3,6 +3,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import BookActions from '../actions/bookActions';
+import {BookForm} from '../components/BookForm';
+
 
 export class BookList extends React.Component{
 
@@ -17,7 +19,8 @@ export class BookList extends React.Component{
             addBookForm: false,
             title:"",
             author:"",
-            submit: false
+            submit: false,
+
         };
     }
 
@@ -35,28 +38,23 @@ export class BookList extends React.Component{
     {
         this.setState({author: event.target.value});
     }
+
     handleSubmit(event)
     {
+        event.preventDefault();
         this.setState({submit: true});
         const book = {"title":this.state.title, "author":this.state.author};
         BookActions.addBooks(book);
-        event.preventDefault();
-        window.location.reload(false);
     }
 
     createBookRow(book){
-        return (
-            <tr key={book.bookId}>
-                <td> {book.bookId} </td>
-                <td> {book.title} </td>
-                <td> {book.author} </td>
-            </tr>
-        );
+        return( <BookForm book={book}/>);
     }
 
     componentDidMount(){
         BookActions.readBooks();
     }
+
 
     render() {
         //handle AddButton

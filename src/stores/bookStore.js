@@ -69,6 +69,17 @@ Dispatcher.register( (action) => {
             _bookStore.book.readState.pending = true;
             BookStore.emitChange();
             break;
+        case 'add_books_successful':
+            BookStore.resetReadState();
+            _bookStore.book.bookList = action.data;
+            _bookStore.book.readState.success = true;
+            BookStore.emitChange();
+            break;
+        case 'add_books_failure':
+            BookStore.resetReadState();
+            _bookStore.book.readState.failure = true;
+            BookStore.emitChange();
+            break;
         default:
             return;
     }

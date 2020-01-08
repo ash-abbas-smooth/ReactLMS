@@ -37,7 +37,7 @@ export class App extends React.Component{
     }
 
     render() {
-        return(
+        const content = (
             <div>
                 <Header />
                 <Switch>
@@ -47,6 +47,7 @@ export class App extends React.Component{
                 </Switch>
             </div>
         );
+        return content;
     }
 
     componentDidMount(){
@@ -65,4 +66,5 @@ export class App extends React.Component{
     _onAuthorChange(){
         this.setState({author: AuthorStore.gettAllAuthors()});
     }
+
 }
