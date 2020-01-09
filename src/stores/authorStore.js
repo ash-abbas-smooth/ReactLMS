@@ -49,7 +49,6 @@ Dispatcher.register( (action) => {
     {
         case 'read_authors_successful':
             AuthorStore.resetReadState();
-            console.log(action.data);
             _authorStore.author.authorList = action.data;
             _authorStore.author.readState.success = true;
             AuthorStore.emitChange();

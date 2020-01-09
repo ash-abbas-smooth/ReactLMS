@@ -27,6 +27,8 @@ export class BookList extends React.Component{
     handleAddFormChange()
     {
         this.setState(state => ({ addBookForm: !state.addBookForm}));
+        this.setState(({title: ""}));
+        this.setState(({ author: ""}));
     }
 
     handleTitleChange(event)
@@ -43,6 +45,7 @@ export class BookList extends React.Component{
     {
         event.preventDefault();
         this.setState({submit: true});
+        this.setState({addBookForm: false});
         const book = {"title":this.state.title, "author":this.state.author};
         BookActions.addBooks(book);
     }
@@ -59,19 +62,38 @@ export class BookList extends React.Component{
     render() {
         //handle AddButton
         let addContent ='';
+        if(!this.state.addBookForm)
+        {
+            addContent =(
+                <button onClick={this.handleAddFormChange}>Add Button</button>
+            );
+        }
         if(this.state.addBookForm)
         {
             addContent = (
-                <form onSubmit={this.handleSubmit}>
-                    <label>
-                        Title: <input type="text" value={this.state.title} onChange={this.handleTitleChange}/>
-                    </label>
-                    <br/>
-                    <label>
-                        Author: <input type="text" value={this.state.author} onChange={this.handleAuthorChange}/>
-                    </label>
-                    <input type="submit" value = "submit" />
-                </form>
+                <table>
+                    <tbody>
+                        <tr>
+                            <td>
+                            <form onSubmit={this.handleSubmit} id="addForm">
+                                <label>
+                                    Title: <input type="text" value={this.state.title} onChange={this.handleTitleChange}/>
+                                </label>
+                            </form>
+                            </td>
+                            <td>
+                                <label>
+                                    Author: <input type="text" value={this.state.author} onChange={this.handleAuthorChange} form="addForm"/>
+                                </label>
+                            </td>
+                            <td>
+                                <input type="submit" value = "submit" form="addForm"/>
+                                <button onClick={this.handleAddFormChange}>Cancel</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                
             );
         }
         //handle bookList    
@@ -96,6 +118,8 @@ export class BookList extends React.Component{
                             <th>ID</th>
                             <th>Title</th>
                             <th>Author</th>
+                            <th></th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -116,9 +140,8 @@ export class BookList extends React.Component{
         return(
             <div>
                 <h1>Books</h1>
-                <button onClick={this.handleAddFormChange}>Add Button</button>
-                {addContent}
                 {content}
+                {addContent}
             </div>
         );
     }

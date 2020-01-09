@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import BookActions from '../actions/bookActions';
 
 export class BookForm  extends React.Component
@@ -66,13 +67,17 @@ export class BookForm  extends React.Component
         {
             content =(
             <tr key={this.props.book.bookId}>
-                <td> {this.props.book.bookId} </td>
+                <td> 
+                    {this.props.book.bookId} 
+                </td>
                 <td> 
                     <form id="updateBook" onSubmit={this.handleSubmit}>
                         <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
+                        <input type="text" value={this.state.author} onChange={this.handleAuthorChange} /> 
                     </form> 
                 </td>
-                <td> <input type="text" value={this.state.author} onChange={this.handleAuthorChange} form="updateBook" /> </td>
+                <td> 
+                </td>
                 <td>
                     <input type="submit" form="updateBook" />
                     <button onClick={this.handleUpdateForm}>Cancel</button>
@@ -84,3 +89,6 @@ export class BookForm  extends React.Component
     }
 }
 
+BookForm.propTypes = {
+    book: PropTypes.object.isRequired
+};

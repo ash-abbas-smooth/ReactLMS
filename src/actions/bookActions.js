@@ -84,7 +84,7 @@ const BooksActions = {
             actionType: 'add_books_started'
         });
         axios.delete('http://localhost:3000/book/:id', {data: {id: book.bookId}})
-        .then( res =>{
+        .then( () =>{
             axios.get(`http://localhost:3000/book`)
             .then(res => {
                 Dispatcher.dispatch({
