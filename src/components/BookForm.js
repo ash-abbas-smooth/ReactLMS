@@ -73,10 +73,10 @@ export class BookForm  extends React.Component
                 <td> 
                     <form id="updateBook" onSubmit={this.handleSubmit}>
                         <input type="text" value={this.state.title} onChange={this.handleTitleChange} />
-                        <input type="text" value={this.state.author} onChange={this.handleAuthorChange} /> 
                     </form> 
                 </td>
                 <td> 
+                    <input type="text" value={this.state.author} onChange={this.handleAuthorChange} /> 
                 </td>
                 <td>
                     <input type="submit" form="updateBook" />
